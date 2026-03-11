@@ -23,10 +23,8 @@
         .login-box { background: white; padding: 40px 30px; border-radius: 20px; width: 100%; max-width: 380px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
         .login-box img { width: 200px; margin-bottom: 10px; }
         .login-box h1 { color: var(--primary-blue); margin: 0 0 25px 0; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; }
-        .login-box p { color: #555; font-size: 0.95rem; margin-bottom: 5px; }
         .login-box input { width: 100%; padding: 14px; margin: 15px 0; border: 2px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 1rem; text-align: center; }
         .login-box button { width: 100%; padding: 14px; background: var(--diamond-blue); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
-        #login-error { color: #d32f2f; font-size: 0.85rem; margin-top: 15px; display: none; font-weight: bold; }
 
         /* --- ESTRUTURA --- */
         #app-content { display: none; }
@@ -60,12 +58,13 @@
         .product-img-large { width: 100%; max-height: 150px; object-fit: contain; margin-bottom: 10px; display: block; margin: 0 auto; }
         .product-name { text-align: center; font-weight: bold; color: var(--primary-blue); margin-bottom: 15px; font-size: 1.1rem; }
 
+        .section-title { background: var(--primary-blue); color: white; padding: 12px; border-radius: 10px; text-align: center; margin: 25px 0 15px 0; text-transform: uppercase; font-size: 0.85rem; }
         .simulation-section { background-color: var(--diamond-blue); color: white; padding: 20px; border-radius: 15px; margin-top: 10px; }
         .simulation-section h3 { text-align:center; margin-bottom:10px; text-transform: uppercase; font-size: 0.9rem; }
         .sim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 10px; }
         .sim-item { background: white; color: #333; padding: 10px; border-radius: 10px; text-align: center; font-size: 0.75rem; }
         .sim-item strong { display: block; color: var(--success); font-size: 0.95rem; margin-top: 3px; }
-        .sim-item .annual-label { color: #666; font-size: 0.7rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; }
+        .sim-item annual-label { color: #666; font-size: 0.7rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; }
     </style>
 </head>
 <body>
@@ -74,10 +73,8 @@
     <div class="login-box">
         <img src="logo_rennova.png" alt="Rennova">
         <h1>Rentabilidade</h1>
-        <p>Para acessar insira o seu e-mail corporativo:</p>
         <input type="email" id="emailInput" placeholder="nome@innovapharma.com" onkeypress="if(event.key==='Enter') validarAcesso()">
         <button onclick="validarAcesso()">Acessar</button>
-        <p id="login-error"></p>
     </div>
 </div>
 
@@ -88,12 +85,12 @@
             <div class="menu-card bg-intense" onclick="showApp('app-intense')"><img src="logo_diamond_intense.png"></div>
             <div class="menu-card bg-diamondx" onclick="showApp('app-diamond-x')"><img src="logo_diamond_x.png"></div>
         </div>
-        <button onclick="location.reload()" style="margin-top: 30px; background: none; border: none; color: #999; text-decoration: underline; cursor: pointer;">Sair</button>
     </div>
 
     <div id="app-elleva" class="app-screen">
         <div class="nav-header"><button class="back-btn" onclick="showMenu()">← Menu</button><strong>Linha Elleva</strong></div>
         <header class="header-elleva"><img src="logo_elleva.png" class="logo-calc-large"></header>
+        
         <div class="card" style="border-top: 5px solid #666;">
             <label>Preço Concorrente (150mg):</label>
             <input type="number" id="inputConcorrente" placeholder="R$ 0,00" oninput="calcularElleva()">
@@ -104,7 +101,12 @@
             <input type="number" id="inputElleva150" placeholder="Preço Rennova" oninput="calcularElleva()">
             <div class="info-row"><span>Equivalência:</span><strong>1.0 frasco</strong></div>
             <div class="info-row"><span>Valor Equiv. Concorrente:</span><strong id="eqVal150">R$ 0,00</strong></div>
-            <div class="highlight-box">Vantagem p/ Frasco: <br><span id="vant150">R$ 0,00</span></div>
+            <div class="info-row"><span>Economia por frasco:</span><strong id="ecoF150" style="color:var(--success)">R$ 0,00</strong></div>
+            <hr>
+            <label>Quantidade para Compra:</label>
+            <input type="number" id="buyQtd150" placeholder="0" oninput="calcularElleva()">
+            <div class="info-row"><span>Valor Total Compra:</span><strong id="totP150">R$ 0,00</strong></div>
+            <div class="info-row"><span>Economia Total na Compra:</span><strong id="totE150" style="color:var(--success)">R$ 0,00</strong></div>
         </div>
 
         <div class="card" style="border-top: 5px solid var(--primary-blue);">
@@ -112,7 +114,12 @@
             <input type="number" id="inputElleva210" placeholder="Preço Rennova" oninput="calcularElleva()">
             <div class="info-row"><span>Equivalência:</span><strong>1.4 frascos</strong></div>
             <div class="info-row"><span>Valor Equiv. Concorrente:</span><strong id="eqVal210">R$ 0,00</strong></div>
-            <div class="highlight-box">Vantagem p/ Frasco: <br><span id="vant210">R$ 0,00</span></div>
+            <div class="info-row"><span>Economia por frasco:</span><strong id="ecoF210" style="color:var(--success)">R$ 0,00</strong></div>
+            <hr>
+            <label>Quantidade para Compra:</label>
+            <input type="number" id="buyQtd210" placeholder="0" oninput="calcularElleva()">
+            <div class="info-row"><span>Valor Total Compra:</span><strong id="totP210">R$ 0,00</strong></div>
+            <div class="info-row"><span>Economia Total na Compra:</span><strong id="totE210" style="color:var(--success)">R$ 0,00</strong></div>
         </div>
 
         <div class="card" style="border-top: 5px solid var(--primary-blue);">
@@ -120,16 +127,53 @@
             <input type="number" id="inputEllevaX" placeholder="Preço Rennova" oninput="calcularElleva()">
             <div class="info-row"><span>Equivalência:</span><strong>4.2 frascos</strong></div>
             <div class="info-row"><span>Valor Equiv. Concorrente:</span><strong id="eqValX">R$ 0,00</strong></div>
-            <div class="highlight-box">Vantagem p/ Frasco: <br><span id="vantX">R$ 0,00</span></div>
+            <div class="info-row"><span>Economia por frasco:</span><strong id="ecoFX" style="color:var(--success)">R$ 0,00</strong></div>
+            <hr>
+            <label>Quantidade para Compra:</label>
+            <input type="number" id="buyQtdX" placeholder="0" oninput="calcularElleva()">
+            <div class="info-row"><span>Valor Total Compra:</span><strong id="totPX">R$ 0,00</strong></div>
+            <div class="info-row"><span>Economia Total na Compra:</span><strong id="totEX" style="color:var(--success)">R$ 0,00</strong></div>
+        </div>
+
+        <div class="section-title">Economia para Grandes Áreas</div>
+        <div class="card">
+            <div class="product-name" style="font-size: 0.9rem;">Simulação p/ Elleva (210mg)</div>
+            <label>Quantidade Frascos Concorrente:</label>
+            <input type="number" id="inputGrandes210Conc" placeholder="Ex: 5 frascos" oninput="calcularElleva()">
+            <div class="info-row"><span>Valor Total Concorrente:</span><strong id="totalGrandes210Conc">R$ 0,00</strong></div>
+            <div class="info-row"><span>Quantidade Frascos Elleva:</span><strong id="qtdGrandes210">0.0 frascos</strong></div>
+            <div class="info-row"><span>Valor Total Elleva:</span><strong id="totalGrandes210">R$ 0,00</strong></div>
+        </div>
+        <div class="card">
+            <div class="product-name" style="font-size: 0.9rem;">Simulação p/ Elleva X (630mg)</div>
+            <label>Quantidade Frascos Concorrente:</label>
+            <input type="number" id="inputGrandesXConc" placeholder="Ex: 5 frascos" oninput="calcularElleva()">
+            <div class="info-row"><span>Valor Total Concorrente:</span><strong id="totalGrandesXConc">R$ 0,00</strong></div>
+            <div class="info-row"><span>Quantidade Frascos Elleva X:</span><strong id="qtdGrandesX">0.0 frascos</strong></div>
+            <div class="info-row"><span>Valor Total Elleva X:</span><strong id="totalGrandesX">R$ 0,00</strong></div>
         </div>
 
         <div class="simulation-section">
             <h3>Economia Mensal vs Anual</h3>
-            <input type="number" id="qtdElleva" placeholder="Frascos/mês" oninput="calcularElleva()" style="color:#333">
             <div class="sim-grid">
-                <div class="sim-item">Elleva150 <strong id="m150">Mês: R$ 0,00</strong><div class="annual-label">Ano: <span id="a150">R$ 0,00</span></div></div>
-                <div class="sim-item">Elleva <strong id="m210">Mês: R$ 0,00</strong><div class="annual-label">Ano: <span id="a210">R$ 0,00</span></div></div>
-                <div class="sim-item">Elleva X <strong id="mX">Mês: R$ 0,00</strong><div class="annual-label">Ano: <span id="aX">R$ 0,00</span></div></div>
+                <div class="sim-item">
+                    Elleva150 (Qtd/mês)
+                    <input type="number" id="qtdElleva150" oninput="calcularElleva()">
+                    <strong id="m150">Mês: R$ 0,00</strong>
+                    <div class="annual-label" style="color: #666; font-size: 0.7rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px;">Ano: <span id="a150">R$ 0,00</span></div>
+                </div>
+                <div class="sim-item">
+                    Elleva 210 (Qtd/mês)
+                    <input type="number" id="qtdElleva210" oninput="calcularElleva()">
+                    <strong id="m210">Mês: R$ 0,00</strong>
+                    <div class="annual-label" style="color: #666; font-size: 0.7rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px;">Ano: <span id="a210">R$ 0,00</span></div>
+                </div>
+                <div class="sim-item">
+                    Elleva X (Qtd/mês)
+                    <input type="number" id="qtdEllevaX" oninput="calcularElleva()">
+                    <strong id="mX">Mês: R$ 0,00</strong>
+                    <div class="annual-label" style="color: #666; font-size: 0.7rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px;">Ano: <span id="aX">R$ 0,00</span></div>
+                </div>
             </div>
         </div>
     </div>
@@ -138,32 +182,29 @@
         <div class="nav-header"><button class="back-btn" onclick="showMenu()">← Menu</button><strong>Diamond Intense</strong></div>
         <header class="header-intense"><img src="logo_diamond_intense.png" class="logo-calc-large"></header>
         
-        <div class="card" style="border-top: 5px solid var(--diamond-blue);">
-            <img src="diamond_intense.png" class="product-img-large">
-            <div class="product-name">Diamond Intense (1,25mL)</div>
+        <div class="card" style="border-top: 5px solid #FFB74D;">
+            <img src="diamond_intense.png" class="product-img-large"><div class="product-name">Diamond Intense (1,25mL)</div>
             <label>Preço Concorrente (Seringa):</label>
             <input type="number" id="pConcI" placeholder="R$ 0,00" oninput="calcIntense()">
             <label>Preço Rennova (Seringa):</label>
             <input type="number" id="pI" placeholder="R$ 0,00" oninput="calcIntense()">
-            <div class="highlight-box">Vantagem p/ Seringa: <br><span id="vantI">R$ 0,00</span></div>
-        </div>
-
-        <div class="card" style="border-top: 5px solid var(--diamond-blue);">
-            <img src="diamond_intense_lido.png" class="product-img-large">
-            <div class="product-name">Intense Lido (1,25mL)</div>
-            <label>Preço Concorrente c/ Lido (Seringa):</label>
-            <input type="number" id="pConcILido" placeholder="R$ 0,00" oninput="calcIntense()">
-            <label>Preço Rennova (Seringa):</label>
-            <input type="number" id="pILido" placeholder="R$ 0,00" oninput="calcIntense()">
-            <div class="highlight-box">Vantagem p/ Seringa: <br><span id="vantIL">R$ 0,00</span></div>
+            <div class="info-row"><span>Economia por seringa:</span><strong id="ecoFI" style="color:var(--success)">R$ 0,00</strong></div>
+            <hr>
+            <label>Quantidade para Compra:</label>
+            <input type="number" id="buyQtdI" placeholder="0" oninput="calcIntense()">
+            <div class="info-row"><span>Valor Total Compra:</span><strong id="totPI">R$ 0,00</strong></div>
+            <div class="info-row"><span>Economia Total na Compra:</span><strong id="totEI" style="color:var(--success)">R$ 0,00</strong></div>
         </div>
 
         <div class="simulation-section">
             <h3>Economia Mensal vs Anual</h3>
-            <input type="number" id="qtdI" placeholder="Seringas/mês" oninput="calcIntense()" style="color:#333">
             <div class="sim-grid">
-                <div class="sim-item">Intense <strong id="mI">Mês: R$ 0,00</strong><div class="annual-label">Ano: <span id="aI">R$ 0,00</span></div></div>
-                <div class="sim-item">Intense Lido <strong id="mIL">Mês: R$ 0,00</strong><div class="annual-label">Ano: <span id="aIL">R$ 0,00</span></div></div>
+                <div class="sim-item">
+                    Intense (Qtd/mês)
+                    <input type="number" id="qtdI" oninput="calcIntense()">
+                    <strong id="mI">Mês: R$ 0,00</strong>
+                    <div class="annual-label" style="color: #666; font-size: 0.7rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px;">Ano: <span id="aI">R$ 0,00</span></div>
+                </div>
             </div>
         </div>
     </div>
@@ -171,35 +212,43 @@
     <div id="app-diamond-x" class="app-screen">
         <div class="nav-header"><button class="back-btn" onclick="showMenu()">← Menu</button><strong>Diamond X</strong></div>
         <header class="header-diamondx"><img src="logo_diamond_x.png" class="logo-calc-large"></header>
-        <div class="card" style="border-top: 5px solid #666;">
-            <label>Preço Concorrente (3,0mL):</label>
-            <input type="number" id="pConcX" placeholder="R$ 0,00" oninput="calcX()">
-        </div>
+        
         <div class="card" style="border-top: 5px solid var(--diamond-x-dark);">
             <img src="diamond_x.png" class="product-img-large"><div class="product-name">Diamond X (3,0mL)</div>
-            <input type="number" id="pX" placeholder="Preço Rennova" oninput="calcX()">
-            <div class="highlight-box">Vantagem p/ Seringa: <br><span id="vX">R$ 0,00</span></div>
+            <label>Preço Concorrente (3,0mL):</label>
+            <input type="number" id="pConcX" placeholder="R$ 0,00" oninput="calcX()">
+            <label>Preço Rennova (3,0mL):</label>
+            <input type="number" id="pX" placeholder="R$ 0,00" oninput="calcX()">
+            <div class="info-row"><span>Economia por seringa:</span><strong id="ecoFXD" style="color:var(--success)">R$ 0,00</strong></div>
+            <hr>
+            <label>Quantidade para Compra:</label>
+            <input type="number" id="buyQtdXD" placeholder="0" oninput="calcX()">
+            <div class="info-row"><span>Valor Total Compra:</span><strong id="totPXD">R$ 0,00</strong></div>
+            <div class="info-row"><span>Economia Total na Compra:</span><strong id="totEXD" style="color:var(--success)">R$ 0,00</strong></div>
         </div>
+
         <div class="simulation-section">
             <h3>Economia Mensal vs Anual</h3>
-            <input type="number" id="qtdX" placeholder="Seringas/mês" oninput="calcX()" style="color:#333">
             <div class="sim-grid">
-                <div class="sim-item">Diamond X <strong id="resX">Mês: R$ 0,00</strong><div class="annual-label">Ano: <span id="anX">R$ 0,00</span></div></div>
+                <div class="sim-item">
+                    Diamond X (Qtd/mês)
+                    <input type="number" id="qtdX" oninput="calcX()">
+                    <strong id="resX">Mês: R$ 0,00</strong>
+                    <div class="annual-label" style="color: #666; font-size: 0.7rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px;">Ano: <span id="anX">R$ 0,00</span></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    const fmt = v => v.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
+
     function validarAcesso() {
         const email = document.getElementById('emailInput').value.toLowerCase().trim();
-        const erro = document.getElementById('login-error');
         if (email.endsWith("@innovapharma.com")) {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('app-content').style.display = 'block';
-        } else {
-            erro.style.display = 'block';
-            erro.innerText = "Acesso restrito ao domínio @innovapharma.com";
         }
     }
 
@@ -207,7 +256,6 @@
         document.getElementById('menu-screen').style.display = 'none';
         document.querySelectorAll('.app-screen').forEach(s => s.style.display = 'none');
         document.getElementById(id).style.display = 'block';
-        window.scrollTo(0,0);
     }
 
     function showMenu() {
@@ -215,69 +263,97 @@
         document.getElementById('menu-screen').style.display = 'flex';
     }
 
-    const fmt = v => v.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
-
     function calcularElleva() {
         const pc = parseFloat(document.getElementById('inputConcorrente').value) || 0;
         const p150 = parseFloat(document.getElementById('inputElleva150').value) || 0;
         const p210 = parseFloat(document.getElementById('inputElleva210').value) || 0;
-        const pX = parseFloat(document.getElementById('inputEllevaX').value) || 0;
-        const q = parseFloat(document.getElementById('qtdElleva').value) || 0;
+        const px = parseFloat(document.getElementById('inputEllevaX').value) || 0;
 
-        // Valores equivalentes do concorrente
-        const ec150 = pc * 1.0;
-        const ec210 = pc * 1.4;
-        const ecX = pc * 4.2;
+        // Equivalências e Economia por Frasco
+        const eq150 = pc * 1.0;
+        const ef150 = eq150 - p150;
+        document.getElementById('eqVal150').innerText = fmt(eq150);
+        document.getElementById('ecoF150').innerText = fmt(ef150);
 
-        document.getElementById('eqVal150').innerText = fmt(ec150);
-        document.getElementById('eqVal210').innerText = fmt(ec210);
-        document.getElementById('eqValX').innerText = fmt(ecX);
+        const eq210 = pc * 1.4;
+        const ef210 = eq210 - p210;
+        document.getElementById('eqVal210').innerText = fmt(eq210);
+        document.getElementById('ecoF210').innerText = fmt(ef210);
 
-        // Vantagem financeira
-        const v150 = ec150 - p150;
-        const v210 = ec210 - p210;
-        const vX = ecX - pX;
+        const eqx = pc * 4.2;
+        const efx = eqx - px;
+        document.getElementById('eqValX').innerText = fmt(eqx);
+        document.getElementById('ecoFX').innerText = fmt(efx);
 
-        document.getElementById('vant150').innerText = fmt(v150);
-        document.getElementById('vant210').innerText = fmt(v210);
-        document.getElementById('vantX').innerText = fmt(vX);
+        // Compra Imediata
+        const bq150 = parseFloat(document.getElementById('buyQtd150').value) || 0;
+        document.getElementById('totP150').innerText = fmt(p150 * bq150);
+        document.getElementById('totE150').innerText = fmt(ef150 * bq150);
 
-        document.getElementById('m150').innerText = "Mês: " + fmt(v150 * q);
-        document.getElementById('a150').innerText = fmt(v150 * q * 12);
-        document.getElementById('m210').innerText = "Mês: " + fmt(v210 * q);
-        document.getElementById('a210').innerText = fmt(v210 * q * 12);
-        document.getElementById('mX').innerText = "Mês: " + fmt(vX * q);
-        document.getElementById('aX').innerText = fmt(vX * q * 12);
+        const bq210 = parseFloat(document.getElementById('buyQtd210').value) || 0;
+        document.getElementById('totP210').innerText = fmt(p210 * bq210);
+        document.getElementById('totE210').innerText = fmt(ef210 * bq210);
+
+        const bqx = parseFloat(document.getElementById('buyQtdX').value) || 0;
+        document.getElementById('totPX').innerText = fmt(px * bqx);
+        document.getElementById('totEX').innerText = fmt(efx * bqx);
+
+        // Grandes Áreas - Elleva 210mg
+        const qG210Conc = parseFloat(document.getElementById('inputGrandes210Conc').value) || 0;
+        document.getElementById('totalGrandes210Conc').innerText = fmt(qG210Conc * pc);
+        const resQtd210 = qG210Conc / 1.4;
+        document.getElementById('qtdGrandes210').innerText = resQtd210.toFixed(1) + " frascos";
+        document.getElementById('totalGrandes210').innerText = fmt(resQtd210 * p210);
+
+        // Grandes Áreas - Elleva X
+        const qGXConc = parseFloat(document.getElementById('inputGrandesXConc').value) || 0;
+        document.getElementById('totalGrandesXConc').innerText = fmt(qGXConc * pc);
+        const resQtdX = qGXConc / 4.2;
+        document.getElementById('qtdGrandesX').innerText = resQtdX.toFixed(1) + " frascos";
+        document.getElementById('totalGrandesX').innerText = fmt(resQtdX * px);
+
+        // Mensal vs Anual
+        const qm150 = parseFloat(document.getElementById('qtdElleva150').value) || 0;
+        document.getElementById('m150').innerText = "Mês: " + fmt(ef150 * qm150);
+        document.getElementById('a150').innerText = fmt(ef150 * qm150 * 12);
+
+        const qm210 = parseFloat(document.getElementById('qtdElleva210').value) || 0;
+        document.getElementById('m210').innerText = "Mês: " + fmt(ef210 * qm210);
+        document.getElementById('a210').innerText = fmt(ef210 * qm210 * 12);
+
+        const qmx = parseFloat(document.getElementById('qtdEllevaX').value) || 0;
+        document.getElementById('mX').innerText = "Mês: " + fmt(efx * qmx);
+        document.getElementById('aX').innerText = fmt(efx * qmx * 12);
     }
 
     function calcIntense() {
-        const pConc = parseFloat(document.getElementById('pConcI').value) || 0;
-        const pConcLido = parseFloat(document.getElementById('pConcILido').value) || 0;
-        const pI = parseFloat(document.getElementById('pI').value) || 0;
-        const pIL = parseFloat(document.getElementById('pILido').value) || 0;
-        const q = parseFloat(document.getElementById('qtdI').value) || 0;
+        const pc = parseFloat(document.getElementById('pConcI').value) || 0;
+        const p = parseFloat(document.getElementById('pI').value) || 0;
+        const ef = pc - p;
+        document.getElementById('ecoFI').innerText = fmt(ef);
 
-        const vI = pConc - pI;
-        const vIL = pConcLido - pIL;
+        const bq = parseFloat(document.getElementById('buyQtdI').value) || 0;
+        document.getElementById('totPI').innerText = fmt(p * bq);
+        document.getElementById('totEI').innerText = fmt(ef * bq);
 
-        document.getElementById('vantI').innerText = fmt(vI);
-        document.getElementById('vantIL').innerText = fmt(vIL);
-        
-        document.getElementById('mI').innerText = "Mês: " + fmt(vI * q);
-        document.getElementById('aI').innerText = fmt(vI * q * 12);
-        document.getElementById('mIL').innerText = "Mês: " + fmt(vIL * q);
-        document.getElementById('aIL').innerText = fmt(vIL * q * 12);
+        const qm = parseFloat(document.getElementById('qtdI').value) || 0;
+        document.getElementById('mI').innerText = "Mês: " + fmt(ef * qm);
+        document.getElementById('aI').innerText = fmt(ef * qm * 12);
     }
 
     function calcX() {
         const pc = parseFloat(document.getElementById('pConcX').value) || 0;
-        const pX = parseFloat(document.getElementById('pX').value) || 0;
-        const q = parseFloat(document.getElementById('qtdX').value) || 0;
+        const p = parseFloat(document.getElementById('pX').value) || 0;
+        const ef = pc - p;
+        document.getElementById('ecoFXD').innerText = fmt(ef);
 
-        const vX = pc - pX;
-        document.getElementById('vX').innerText = fmt(vX);
-        document.getElementById('resX').innerText = "Mês: " + fmt(vX * q);
-        document.getElementById('anX').innerText = fmt(vX * q * 12);
+        const bq = parseFloat(document.getElementById('buyQtdXD').value) || 0;
+        document.getElementById('totPXD').innerText = fmt(p * bq);
+        document.getElementById('totEXD').innerText = fmt(ef * bq);
+
+        const qm = parseFloat(document.getElementById('qtdX').value) || 0;
+        document.getElementById('resX').innerText = "Mês: " + fmt(ef * qm);
+        document.getElementById('anX').innerText = fmt(ef * qm * 12);
     }
 </script>
 </body>
